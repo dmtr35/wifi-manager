@@ -40,7 +40,7 @@ int wifi_dev(wifi_data *ptr_wifi_data)
 int wifi_info(wifi_data *ptr_wifi_data)
 {
     char *wifi_interface = ptr_wifi_data->wifi_interface;
-    char *wifi_status = ptr_wifi_data->wifi_status;
+    int *wifi_status = &ptr_wifi_data->wifi_status;
     char *wifi_IP = ptr_wifi_data->wifi_IP;
     char *wifi_mask = ptr_wifi_data->wifi_mask;
     char *gateway_default = ptr_wifi_data->gateway_default;
@@ -59,9 +59,9 @@ int wifi_info(wifi_data *ptr_wifi_data)
     // Проверка статуса интерфейса
     if (ioctl(sockfd, SIOCGIFFLAGS, &ifr) == 0) {
         if (ifr.ifr_flags & IFF_UP) {
-            strcpy(wifi_status, "UP");
+            *wifi_status = 0;
         } else {
-            strcpy(wifi_status, "DOWN");
+            *wifi_status = 1;
         }
     } else {
         perror("Ошибка получения флагов интерфейса");

@@ -26,4 +26,27 @@ int netmask_to_cidr(const char *netmask)
     return cidr;
 }
 
+// высчитываем кооодинаты окон
+int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord)
+{
+    int *height = &coord->height;
+    int *width = &coord->width;
+    int *height_win = &coord->height_win;
+    int *width_win = &coord->width_win;
+    int *height_x = &coord->height_x;
+    int *width_y = &coord->width_y;
+
+    *height_win = *height / 2;
+    if (*height_win < 15) {
+        *height_win = 15;
+    }
+
+    *width_win = *width / 2;
+    if (*width_win < 33) {
+        *width_win = 33;
+    }
+
+    *height_x = (*height - *height_win) / 2;
+    *width_y = (*width - *width_win) / 2;
+}
 

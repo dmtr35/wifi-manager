@@ -15,15 +15,17 @@
 #include <ncurses.h>
 #include <locale.h>
 
+// #define ESCDELAY = 500;
 #define NUM_WIFI_LIST 30
 #define MAX_LEN 64
 #define INT_64 64
 #define SIZE_BUFF 1024
 #define ADDR_LEN 16
+#define COLOR_GREY 8
 
 typedef struct wifi_data {
     char wifi_interface[INT_64];
-    char wifi_status[INT_64];
+    int wifi_status;
     char wifi_IP[ADDR_LEN];
     char wifi_mask[INT_64];
     char gateway_default[INT_64];
@@ -38,15 +40,19 @@ typedef struct coord_win {
     int width_y;
 } coord_win;
 
-// typedef struct list_wifi {
-//     char SSID[INT_64];
-// } list_wifi;
+typedef struct cursor {
+    int cur_header;
+    int cur_list;
+} cursor;
 
 
-// rendefing/render_main.c
-int render_main(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, WINDOW *list);
-int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord);
 
+// rendering/render_header.c
+int render_header(wifi_data *ptr_wifi_data, coord_win *coord, cursor *curs, WINDOW *header, _Bool *active);
+int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256]);
+
+// rendering/render_list.c
+int render_list(wifi_data *ptr_wifi_data, coord_win *coord, cursor *curs, WINDOW *list, _Bool *active, char **list_wifi);
 
 // wifi_dev.c
 int wifi_dev(wifi_data *ptr_wifi_data);
@@ -57,7 +63,8 @@ int take_list_wifi(wifi_data *ptr_wifi_data, char **list_wifi);
 
 // extra_func/extra_func.c
 int netmask_to_cidr();
-
+int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord);
+void create_empty_line(char empty_line, int count);
 
 
 

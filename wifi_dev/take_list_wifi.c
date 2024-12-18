@@ -30,6 +30,6 @@ int take_list_wifi(wifi_data *ptr_wifi_data, char **list_wifi)
         strcpy(list_wifi[i], buffer);
         count++;
     }
-
+    free(command);
     pclose(fp);
 }

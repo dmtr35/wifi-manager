@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <net/if.h>
@@ -38,11 +39,20 @@ typedef struct coord_win {
     int width_win;
     int height_x;
     int width_y;
+
+    int cur_header;
+    int cur_list;
+
+    int height_list;
+    int width_list;
+    int offset;
+
+    int visible_lines;
+    int full_lines;
 } coord_win;
 
 typedef struct cursor {
-    int cur_header;
-    int cur_list;
+    int pid_proc;
 } cursor;
 
 
@@ -58,7 +68,7 @@ int render_list(wifi_data *ptr_wifi_data, coord_win *coord, cursor *curs, WINDOW
 int wifi_dev(wifi_data *ptr_wifi_data);
 int wifi_info(wifi_data *ptr_wifi_data);
 // take_wifi_list.c
-int take_list_wifi(wifi_data *ptr_wifi_data, char **list_wifi);
+int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
 
 
 // extra_func/extra_func.c

@@ -3,26 +3,9 @@
 
 int render_header(wifi_data *ptr_wifi_data, coord_win *coord, cursor *curs, WINDOW *header, _Bool *active)
 {
-    // int *height = &coord->height;
-    // int *width = &coord->width;
-    // int *height_win = &coord->height_win;
-    // int *width_win = &coord->width_win;
-    // int *height_x = &coord->height_x;
-    // int *width_y = &coord->width_y;
-    int *cur_header = &curs->cur_header;
-    // *cur_header = 1;
-    
-    // char *wifi_interface = ptr_wifi_data->wifi_interface;
-    // int *wifi_status = &ptr_wifi_data->wifi_status;
-    // char *wifi_IP = ptr_wifi_data->wifi_IP;
-    // char *wifi_mask = ptr_wifi_data->wifi_mask;
-    // char *gateway_default = ptr_wifi_data->gateway_default;
-
-    
-
+    int *cur_header = &coord->cur_header;
     char fields[4][256];
     form_header(ptr_wifi_data, coord, fields);
-    
   
     start_color();
     init_color(COLOR_GREY, 300, 300, 300);
@@ -78,7 +61,7 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256])
             fprintf(stderr, "Ошибка выделения памяти\n");
             return -1;
         }
-        
+
         memset(empty_line, ' ', size_empty_line);
         empty_line[size_empty_line] = '\0';
         

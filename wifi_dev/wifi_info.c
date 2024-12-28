@@ -59,9 +59,9 @@ int wifi_info(wifi_data *ptr_wifi_data)
     // Проверка статуса интерфейса
     if (ioctl(sockfd, SIOCGIFFLAGS, &ifr) == 0) {
         if (ifr.ifr_flags & IFF_UP) {
-            *wifi_status = 0;
-        } else {
             *wifi_status = 1;
+        } else {
+            *wifi_status = 0;
         }
     } else {
         perror("Ошибка получения флагов интерфейса");

@@ -1,7 +1,7 @@
 #include "../header.h"
 
 
-int render_header(wifi_data *ptr_wifi_data, coord_win *coord, cursor *curs, WINDOW *header, _Bool *active)
+int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _Bool *active)
 {
     int *cur_header = &coord->cur_header;
     char fields[4][256];
@@ -43,7 +43,7 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256])
 
     char wifi_data_mod[4][64];
     snprintf(wifi_data_mod[0], strlen(wifi_interface) + 14, " Interface:  %s", wifi_interface);
-    snprintf(wifi_data_mod[1], strlen(*wifi_status == 0 ? "UP" : "DUWN") + 14, " Status:     %s", *wifi_status == 0 ? "UP" : "DUWN");
+    snprintf(wifi_data_mod[1], strlen(*wifi_status == 1 ? "UP" : "DUWN") + 14, " Status:     %s", *wifi_status == 1 ? "UP" : "DUWN");
     snprintf(wifi_data_mod[2], strlen(wifi_IP) + strlen(wifi_mask) + 14, " IP:         %s%s", wifi_IP, wifi_mask);
     snprintf(wifi_data_mod[3], strlen(gateway_default) + 14, " Gateway:    %s", gateway_default);
 

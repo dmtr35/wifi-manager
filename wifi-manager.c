@@ -15,17 +15,13 @@ int main()
     curs_set(0);
 
     int ch;
-    // _Bool active = true;
     _Bool active = false;
     wifi_data *ptr_wifi_data = malloc(sizeof(wifi_data));
     coord_win *coord = malloc(sizeof(coord_win));
-    cursor *curs = malloc(sizeof(cursor));
     char **list_wifi = malloc(NUM_WIFI_LIST * sizeof(char *));
     for (int i = 0; i < NUM_WIFI_LIST; ++i) {
         list_wifi[i] = malloc(MAX_LEN * sizeof(char));
     }
-    
-    // int *pid_proc = &curs->pid_proc;
 
     int *cur_header = &coord->cur_header;
     int *cur_list = &coord->cur_list;
@@ -34,6 +30,7 @@ int main()
     int *width_list = &coord->width_list;
     int *visible_lines = &coord->visible_lines;
     int *full_lines = &coord->full_lines;
+    _Bool *bool_render_list = &coord->bool_render_list;
 
     int *height = &coord->height;
     int *width = &coord->width;
@@ -45,6 +42,7 @@ int main()
     *cur_header = 1;
     *cur_list = 1;
     *offset = 0;
+    *bool_render_list = false;
 
     getmaxyx(stdscr, *height, *width);
     calculate_coord_win(ptr_wifi_data, coord);
@@ -63,46 +61,21 @@ int main()
     wifi_dev(ptr_wifi_data);
     wifi_info(ptr_wifi_data);
 
+    render_list(ptr_wifi_data, coord, list, &active, list_wifi, true);
 
-    if (*wifi_status == 0) {
-        take_list_wifi(ptr_wifi_data, coord, list_wifi);
-        render_list(ptr_wifi_data, coord, curs, list, &active, list_wifi);
-    }
-
-    
     while (1) {
-        // if (*pid_proc > 0) {
-        //     kill(*pid_proc, 9);
-        // }
-        render_header(ptr_wifi_data, coord, curs, header, &active);
+
+        render_header(ptr_wifi_data, coord, header, &active);
+
         if (*wifi_status == 0) {
-            render_list(ptr_wifi_data, coord, curs, list, &active, list_wifi);
-        }
-
-        if (active) {
-            ch = wgetch(list);
-            // getmaxyx(list, height_list, width_list);
-
-            switch (ch) {
-            case KEY_UP:
-                if (*cur_list > 1) {
-                    (*cur_list)--;
-                } else if (*cur_list == 1 && *offset > 0) {
-                    (*offset)--;
-                }
-                break;
-            case KEY_DOWN:
-                if (*cur_list < *visible_lines) {
-                    (*cur_list)++;
-                } else if (*cur_list == *visible_lines && *offset < (*full_lines - *visible_lines)) {
-                    (*offset)++;
-                }
-                break;
-            case '\n':
-                wprintw(header, "Enter нажата\n");
-                break;
+            for (int i = 0; i < NUM_WIFI_LIST; ++i) {
+                memset(list_wifi[i], 0, MAX_LEN);
             }
-        } else{
+        }
+        render_list(ptr_wifi_data, coord, list, &active, list_wifi, *bool_render_list);
+        *bool_render_list = false;
+
+        if (!active) {
             ch = wgetch(header);
             switch (ch) {
             case KEY_UP:
@@ -120,7 +93,31 @@ int main()
                 }
                 break;
             case '\n':
-                wprintw(header, "Enter нажата\n");
+                // wprintw(header, "Enter нажата\n");
+                enter_header(ptr_wifi_data, coord);
+                break;
+            }
+        } else{
+            ch = wgetch(list);
+
+            switch (ch) {
+            case KEY_UP:
+                if (*cur_list > 1) {
+                    (*cur_list)--;
+                } else if (*cur_list == 1 && *offset > 0) {
+                    (*offset)--;
+                }
+                break;
+            case KEY_DOWN:
+                if (*cur_list < *visible_lines) {
+                    (*cur_list)++;
+                } else if (*cur_list == *visible_lines && *offset < (*full_lines - *visible_lines)) {
+                    (*offset)++;
+                }
+                break;
+            case '\n':
+                // wprintw(header, "Enter нажата\n");
+                enter_list(ptr_wifi_data, coord, list_wifi);
                 break;
             }
         }
@@ -130,6 +127,9 @@ int main()
         }
         if (ch == 9) {                                                  // TAB
             active = !active;
+            if (*wifi_status == 1) {
+                render_list(ptr_wifi_data, coord, list, &active, list_wifi, true);
+            }
         }
     }
 
@@ -140,7 +140,6 @@ int main()
     free(list_wifi);
     free(ptr_wifi_data);
     free(coord);
-    free(curs);
     endwin();
     return 0;
 }

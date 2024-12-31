@@ -26,6 +26,8 @@ int main()
     int *cur_header = &coord->cur_header;
     int *cur_list = &coord->cur_list;
     int *offset = &coord->offset;
+    int *height_header = &coord->height_header;
+    int *width_header = &coord->width_header;
     int *height_list = &coord->height_list;
     int *width_list = &coord->width_list;
     int *visible_lines = &coord->visible_lines;
@@ -42,36 +44,28 @@ int main()
     *cur_header = 1;
     *cur_list = 1;
     *offset = 0;
-    *bool_render_list = false;
-
-    getmaxyx(stdscr, *height, *width);
-    calculate_coord_win(ptr_wifi_data, coord);
-    getmaxyx(list, *height_list, *width_list);
-
-    header = newwin(6, *width_win, *height_x, *width_y);
-    wborder(header, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
-    keypad(header, TRUE);
-
-    list = newwin(*height_win - 7, *width_win, *height_x+6, *width_y);
-    wborder(list, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
-    keypad(list, TRUE);
-    scrollok(list, TRUE);
+    *bool_render_list = true;
 
 
     wifi_dev(ptr_wifi_data);
     wifi_info(ptr_wifi_data);
 
-    render_list(ptr_wifi_data, coord, list, &active, list_wifi, true);
 
     while (1) {
+        getmaxyx(stdscr, *height, *width);
+        calculate_coord_win(ptr_wifi_data, coord);
+        header = newwin(6, *width_win, *height_x, *width_y);
+        wborder(header, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
+        keypad(header, TRUE);
+
+        list = newwin(*height_win - 7, *width_win, *height_x+6, *width_y);
+        wborder(list, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
+        keypad(list, TRUE);
+
+        getmaxyx(header, *height_header, *width_header);
+        getmaxyx(list, *height_list, *width_list);
 
         render_header(ptr_wifi_data, coord, header, &active);
-
-        if (*wifi_status == 0) {
-            for (int i = 0; i < NUM_WIFI_LIST; ++i) {
-                memset(list_wifi[i], 0, MAX_LEN);
-            }
-        }
         render_list(ptr_wifi_data, coord, list, &active, list_wifi, *bool_render_list);
         *bool_render_list = false;
 
@@ -93,11 +87,10 @@ int main()
                 }
                 break;
             case '\n':
-                // wprintw(header, "Enter нажата\n");
                 enter_header(ptr_wifi_data, coord);
                 break;
             }
-        } else{
+        } else {
             ch = wgetch(list);
 
             switch (ch) {
@@ -116,7 +109,6 @@ int main()
                 }
                 break;
             case '\n':
-                // wprintw(header, "Enter нажата\n");
                 enter_list(ptr_wifi_data, coord, list_wifi);
                 break;
             }
@@ -129,6 +121,17 @@ int main()
             active = !active;
             if (*wifi_status == 1) {
                 render_list(ptr_wifi_data, coord, list, &active, list_wifi, true);
+            }
+        }
+        else if (ch == 'r' || ch == KEY_RESIZE) {
+            int new_height, new_width;
+            getmaxyx(stdscr, new_height, new_width);
+            if (new_height != *height || new_width != *width) {
+                clear();
+                refresh();
+                *height = new_height;
+                *width = new_width;
+                calculate_coord_win(ptr_wifi_data, coord);
             }
         }
     }

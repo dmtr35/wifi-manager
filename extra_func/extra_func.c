@@ -26,6 +26,25 @@ int netmask_to_cidr(const char *netmask)
     return cidr;
 }
 
+// преобразование cidr в mask
+int cidr_to_netmask(char *mask_cidr, char *wifi_mask)
+{
+    int cidr = atoi(mask_cidr);                                 // Преобразуем CIDR (например, 24) в число
+    if (cidr < 0 || cidr > 32) {
+        printf("Invalid CIDR value\n");
+        return -1;
+    }
+
+    unsigned int netmask = 0xFFFFFFFF << (32 - cidr);           // Сдвигаем единичные биты
+    snprintf(wifi_mask, 16, "%d.%d.%d.%d", 
+             (netmask >> 24) & 0xFF,                            // Старшие 8 бит
+             (netmask >> 16) & 0xFF,                            // Следующие 8 бит
+             (netmask >> 8) & 0xFF,                             // Еще 8 бит
+             netmask & 0xFF);                                   // Младшие 8 бит
+
+    return 0;
+}
+
 // высчитываем кооодинаты окон
 int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord)
 {
@@ -48,5 +67,31 @@ int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord)
 
     *height_x = (*height - *height_win) / 2;
     *width_y = (*width - *width_win) / 2;
+}
+
+// проверка ip и маски регулярными выражениями
+int validate_ip_mask(const char *ip, const char *pattern)
+{
+    
+    regex_t regex;
+    int ret;
+
+    ret = regcomp(&regex, pattern, REG_EXTENDED);
+    if (ret) {
+        fprintf(stderr, "Regular expression compilation error\n");        
+        return 0;
+    }
+
+    ret = regexec(&regex, ip, 0, NULL, 0);
+    regfree(&regex);                                            // освобождаем ресурсы
+
+    if (!ret) {
+        return 1;
+    } else if (ret == REG_NOMATCH) {
+        return 0;
+    } else {
+        fprintf(stderr, "Regular expression execution error\n");
+        return 0;
+    }
 }
 

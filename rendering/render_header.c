@@ -38,13 +38,13 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256])
     char *wifi_interface = ptr_wifi_data->wifi_interface;
     int *wifi_status = &ptr_wifi_data->wifi_status;
     char *wifi_IP = ptr_wifi_data->wifi_IP;
-    char *wifi_mask = ptr_wifi_data->wifi_mask;
+    char *wifi_mask_cidr = ptr_wifi_data->wifi_mask_cidr;
     char *gateway_default = ptr_wifi_data->gateway_default;
 
     char wifi_data_mod[4][64];
     snprintf(wifi_data_mod[0], strlen(wifi_interface) + 14, " Interface:  %s", wifi_interface);
     snprintf(wifi_data_mod[1], strlen(*wifi_status == 1 ? "UP" : "DUWN") + 14, " Status:     %s", *wifi_status == 1 ? "UP" : "DUWN");
-    snprintf(wifi_data_mod[2], strlen(wifi_IP) + strlen(wifi_mask) + 14, " IP:         %s%s", wifi_IP, wifi_mask);
+    snprintf(wifi_data_mod[2], strlen(wifi_IP) + strlen(wifi_mask_cidr) + 14, " IP:         %s%s", wifi_IP, wifi_mask_cidr);
     snprintf(wifi_data_mod[3], strlen(gateway_default) + 14, " Gateway:    %s", gateway_default);
 
 

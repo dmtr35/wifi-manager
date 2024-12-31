@@ -15,6 +15,8 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <sys/un.h>
+#include <ctype.h>
+#include <regex.h>
 
 
 #include <ncurses.h>
@@ -30,9 +32,10 @@
 
 
 typedef struct wifi_data {
-    char wifi_interface[INT_64];
     int wifi_status;
     char wifi_IP[ADDR_LEN];
+    char wifi_interface[INT_64];
+    char wifi_mask_cidr[INT_64];
     char wifi_mask[INT_64];
     char gateway_default[INT_64];
 } wifi_data;
@@ -47,6 +50,9 @@ typedef struct coord_win {
 
     int cur_header;
     int cur_list;
+
+    int height_header;
+    int width_header;
 
     int height_list;
     int width_list;
@@ -81,14 +87,24 @@ int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi)
 int netmask_to_cidr();
 int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord);
 void create_empty_line(char empty_line, int count);
+int validate_ip_mask(const char *ip, const char *pattern_ip);
+int cidr_to_netmask(char *mask, char *wifi_mask);
 
-// enter/enter_header.c
+
+// enter/header/enter_header.c
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord);
 void set_interface_state(const char *wifi_interface, int state);
+// enter/header/set_ip.c
+void set_ip(wifi_data *ptr_wifi_data, coord_win *coord);
+int set_ip_address(wifi_data *ptr_wifi_data, char *buffer_ip);
 
-// enter/enter_list.c
+
+// enter/list/enter_list.c
 int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
 
+// command_line/buffer_save.c
+void add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_pos);
+void delete_char_from_enter_name(WINDOW *win, char *buffer_ip, int *buffer_pos);
 
 #endif
 

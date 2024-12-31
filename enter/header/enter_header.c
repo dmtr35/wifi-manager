@@ -1,5 +1,6 @@
-#include "../header.h"
+#include "../../header.h"
 
+const char *pattern_gateway = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$";
 
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
 {
@@ -21,11 +22,13 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
         *full_lines = 0;
         break;
     case 3:
+        set_ip(ptr_wifi_data, coord);
         break;
     case 4:
         break;
     }
 }
+
 
 
 void set_interface_state(const char *wifi_interface, int state) {
@@ -63,6 +66,5 @@ void set_interface_state(const char *wifi_interface, int state) {
     }
 
     sleep(1);
-
     close(sock);
 }

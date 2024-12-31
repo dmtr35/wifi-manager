@@ -42,6 +42,7 @@ int wifi_info(wifi_data *ptr_wifi_data)
     char *wifi_interface = ptr_wifi_data->wifi_interface;
     int *wifi_status = &ptr_wifi_data->wifi_status;
     char *wifi_IP = ptr_wifi_data->wifi_IP;
+    char *wifi_mask_cidr = ptr_wifi_data->wifi_mask_cidr;
     char *wifi_mask = ptr_wifi_data->wifi_mask;
     char *gateway_default = ptr_wifi_data->gateway_default;
 
@@ -78,8 +79,10 @@ int wifi_info(wifi_data *ptr_wifi_data)
     // Получение маски подсети
     if (ioctl(sockfd, SIOCGIFNETMASK, &ifr) == 0) {
         struct sockaddr_in *netmask = (struct sockaddr_in *)&ifr.ifr_netmask;
-        int res = netmask_to_cidr(inet_ntoa(netmask->sin_addr));
-        sprintf(wifi_mask, "/%d", res);
+        
+        strcpy(wifi_mask, inet_ntoa(netmask->sin_addr));
+        int res = netmask_to_cidr(wifi_mask);
+        sprintf(wifi_mask_cidr, "/%d", res);
     } else {
         perror("Ошибка получения маски подсети");
     }

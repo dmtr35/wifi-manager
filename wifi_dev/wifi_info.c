@@ -98,8 +98,7 @@ int wifi_info(wifi_data *ptr_wifi_data)
     char line[256];
     char iface[IFNAMSIZ];
     unsigned long dest, gateway;
-
-    fgets(line, sizeof(line), route_file);              // Пропускаем заголовок
+    fgets(line, sizeof(line), route_file);                                       // Пропускаем заголовок
 
     while (fgets(line, sizeof(line), route_file)) {
         if (sscanf(line, "%s %lx %lx", iface, &dest, &gateway) == 3) {
@@ -108,10 +107,11 @@ int wifi_info(wifi_data *ptr_wifi_data)
                 gw_addr.s_addr = gateway;
                 strncpy(gateway_default, inet_ntoa(gw_addr), INET_ADDRSTRLEN - 1);
                 break;
+            } else {
+                strcpy(gateway_default, "");
             }
-        }
+        } 
     }
-
     close(sockfd);
     return 0;
 }

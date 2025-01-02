@@ -17,6 +17,7 @@
 #include <sys/un.h>
 #include <ctype.h>
 #include <regex.h>
+#include <linux/route.h>
 
 
 #include <ncurses.h>
@@ -80,31 +81,34 @@ int wifi_dev(wifi_data *ptr_wifi_data);
 int wifi_info(wifi_data *ptr_wifi_data);
 // take_wifi_list.c
 int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
-// void* take_list_wifi(void *arg);
+// int* take_list_wifi(int *arg);
 
 
 // extra_func/extra_func.c
 int netmask_to_cidr();
 int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord);
-void create_empty_line(char empty_line, int count);
+int create_empty_line(char empty_line, int count);
 int validate_ip_mask(const char *ip, const char *pattern_ip);
 int cidr_to_netmask(char *mask, char *wifi_mask);
 
 
 // enter/header/enter_header.c
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord);
-void set_interface_state(const char *wifi_interface, int state);
+int set_interface_state(const char *wifi_interface, int state);
 // enter/header/set_ip.c
-void set_ip(wifi_data *ptr_wifi_data, coord_win *coord);
+int set_ip(wifi_data *ptr_wifi_data, coord_win *coord);
 int set_ip_address(wifi_data *ptr_wifi_data, char *buffer_ip);
-
+// enter/header/set_gateway.c
+int set_gateway(wifi_data *ptr_wifi_data, coord_win *coord);
+int change_gateway(wifi_data *ptr_wifi_data, char *buffer_gateway);
+int delete_gateway(wifi_data *ptr_wifi_data);
 
 // enter/list/enter_list.c
 int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
 
 // command_line/buffer_save.c
-void add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_pos);
-void delete_char_from_enter_name(WINDOW *win, char *buffer_ip, int *buffer_pos);
+int add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_pos);
+int delete_char_from_enter_name(WINDOW *win, char *buffer_ip, int *buffer_pos);
 
 #endif
 

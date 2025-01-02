@@ -2,7 +2,7 @@
 
 
 
-void add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_pos) {
+int add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_pos) {
     if (*buffer_pos < 18) {                                                                 // Убедитесь, что позиция буфера не превышает максимальную длину
         if (isprint(ch)) {                                                                  // Проверяем, что символ является печатаемым
             buffer_ip[*buffer_pos] = ch;                                                // Добавляем символ к буферу
@@ -12,7 +12,7 @@ void add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_po
         }
     }
 }
-void delete_char_from_enter_name(WINDOW *win, char *buffer_ip, int *buffer_pos) {
+int delete_char_from_enter_name(WINDOW *win, char *buffer_ip, int *buffer_pos) {
     if (*buffer_pos > 0) {                                                                  // Убеждаемся, что есть символы для удаления
         (*buffer_pos)--;                                                                    // Уменьшаем позицию буфера для удаления последнего символа
         buffer_ip[*buffer_pos] = '\0';                                                  // Устанавливаем последний символ в буфере как нулевой символ, чтобы удалить его

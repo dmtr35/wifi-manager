@@ -1,6 +1,5 @@
 #include "../../header.h"
 
-const char *pattern_gateway = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$";
 
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
 {
@@ -8,6 +7,7 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
     int *cur_list = &coord->cur_list;
     int *full_lines = &coord->full_lines;
     char *wifi_interface = ptr_wifi_data->wifi_interface;
+    char *gateway_default = ptr_wifi_data->gateway_default;
     int *wifi_status = &ptr_wifi_data->wifi_status;
     _Bool *bool_render_list = &coord->bool_render_list;
 
@@ -23,15 +23,19 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
         break;
     case 3:
         set_ip(ptr_wifi_data, coord);
+        wifi_info(ptr_wifi_data);
         break;
     case 4:
+        set_gateway(ptr_wifi_data, coord);
+        wifi_info(ptr_wifi_data);
         break;
     }
+    return 0;
 }
 
 
 
-void set_interface_state(const char *wifi_interface, int state) {
+int set_interface_state(const char *wifi_interface, int state) {
     int sock;
     struct ifreq ifr;
 
@@ -39,7 +43,7 @@ void set_interface_state(const char *wifi_interface, int state) {
     sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock < 0) {
         perror("socket");
-        return;
+        return 1;
     }
 
     // Указываем имя интерфейса
@@ -50,7 +54,7 @@ void set_interface_state(const char *wifi_interface, int state) {
     if (ioctl(sock, SIOCGIFFLAGS, &ifr) < 0) {
         perror("ioctl(SIOCGIFFLAGS)");
         close(sock);
-        return;
+        return 1;
     }
 
     // Меняем состояние интерфейса

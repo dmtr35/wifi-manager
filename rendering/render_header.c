@@ -27,7 +27,6 @@ int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _B
     }
 
     wrefresh(header);
-    printf("\n");
 }
 
 

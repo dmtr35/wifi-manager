@@ -7,6 +7,7 @@ int set_ip(wifi_data *ptr_wifi_data, coord_win *coord)
     int ch;
     char buffer_ip[19] = {0};
     int buffer_pos = 0;
+    int max_buf = 18;
     const char *pattern_ip = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/(3[0-2]|[1-2]?[0-9])$";
 
     int *width_win = &coord->width_win;
@@ -28,16 +29,16 @@ int set_ip(wifi_data *ptr_wifi_data, coord_win *coord)
         ch = wgetch(win_ip);
 
         if (ch == '\n') {
-            if (validate_ip_mask(buffer_ip, pattern_ip)) {
+            if (validate_input(buffer_ip, pattern_ip)) {
                 set_ip_address(ptr_wifi_data, buffer_ip);
                 break;
             } else {
                 break;
             }
         } else if (ch == KEY_BACKSPACE || ch == 127) {
-            delete_char_from_enter_name(win_ip, buffer_ip, &buffer_pos);
+            delete_char_from_enter(win_ip, buffer_ip, &buffer_pos);
         } else if (ch > 45 && ch < 58) {
-            add_char_to_enter_name(win_ip, ch, buffer_ip, &buffer_pos);
+            add_char_to_enter(win_ip, ch, max_buf, buffer_ip, &buffer_pos);
         }
 
         wrefresh(win_ip);

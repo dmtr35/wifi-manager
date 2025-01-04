@@ -43,5 +43,4 @@ int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool 
     }
 
     wrefresh(list);
-    // printf("\n");
 }

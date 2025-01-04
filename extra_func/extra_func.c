@@ -70,7 +70,7 @@ int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord)
 }
 
 // проверка ip и маски регулярными выражениями
-int validate_ip_mask(const char *ip, const char *pattern)
+int validate_input(const char *value, const char *pattern)
 {
     
     regex_t regex;
@@ -82,7 +82,7 @@ int validate_ip_mask(const char *ip, const char *pattern)
         return 0;
     }
 
-    ret = regexec(&regex, ip, 0, NULL, 0);
+    ret = regexec(&regex, value, 0, NULL, 0);
     regfree(&regex);                                            // освобождаем ресурсы
 
     if (!ret) {
@@ -93,5 +93,17 @@ int validate_ip_mask(const char *ip, const char *pattern)
         fprintf(stderr, "Regular expression execution error\n");
         return 0;
     }
+}
+
+// удалить все процессы связанные с wifi интерфейсом
+void del_wifi_proc(char *interface)
+{
+    size_t size_command = strlen(interface) + 79;
+    char *command = malloc(size_command);
+    snprintf(command, size_command, "ps -aux | grep %s | awk '{print $2}' | while read LINE; do sudo kill $LINE; done", interface);
+    usleep(100000);
+
+    system(command);
+    free(command);
 }
 

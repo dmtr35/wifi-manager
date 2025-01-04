@@ -88,9 +88,9 @@ int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi)
 int netmask_to_cidr();
 int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord);
 int create_empty_line(char empty_line, int count);
-int validate_ip_mask(const char *ip, const char *pattern_ip);
+int validate_input(const char *ip, const char *pattern_ip);
 int cidr_to_netmask(char *mask, char *wifi_mask);
-
+void del_wifi_proc(char *interface);
 
 // enter/header/enter_header.c
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord);
@@ -105,10 +105,12 @@ int delete_gateway(wifi_data *ptr_wifi_data);
 
 // enter/list/enter_list.c
 int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
+// enter/list/set_connect.c
+int set_connect(wifi_data *ptr_wifi_data, char *wifi_name, char *buffer_pass);
 
 // command_line/buffer_save.c
-int add_char_to_enter_name(WINDOW *win, int ch, char *buffer_ip, int *buffer_pos);
-int delete_char_from_enter_name(WINDOW *win, char *buffer_ip, int *buffer_pos);
+int add_char_to_enter(WINDOW *win, int ch, int max_buf, char *buffer_ip, int *buffer_pos);
+int delete_char_from_enter(WINDOW *win, char *buffer_ip, int *buffer_pos);
 
 #endif
 

@@ -17,6 +17,8 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
         wifi_info(ptr_wifi_data);
         if (*wifi_status == 1) {
             *bool_render_list = true;
+        } else {
+            del_wifi_proc(wifi_interface);
         }
         *cur_list = 1;
         *full_lines = 0;

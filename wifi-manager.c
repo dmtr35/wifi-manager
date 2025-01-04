@@ -119,6 +119,7 @@ int main()
         }
         if (ch == 9) {                                                  // TAB
             active = !active;
+            wifi_info(ptr_wifi_data);
             if (*wifi_status == 1) {
                 render_list(ptr_wifi_data, coord, list, &active, list_wifi, true);
             }

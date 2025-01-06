@@ -2,7 +2,11 @@
 
 int wifi_dev(wifi_data *ptr_wifi_data)
 {
+    int i;
     char *wifi_interface = ptr_wifi_data->wifi_interface;
+    int *count_ifaces = &ptr_wifi_data->count_ifaces;
+    char (*ifaces)[INT_32] = ptr_wifi_data->ifaces;
+
     struct if_nameindex *interfaces, *iface;
     struct ifreq ifr;
 
@@ -19,15 +23,18 @@ int wifi_dev(wifi_data *ptr_wifi_data)
         return 1;
     }
 
-    for (iface = interfaces; iface->if_name != NULL; iface++) {
+    for (iface = interfaces, i = 0; iface->if_name != NULL; ++iface, ++i) {
         memset(&ifr, 0, sizeof(ifr));
         strncpy(ifr.ifr_name, iface->if_name, IFNAMSIZ - 1);
 
         if (ioctl(sockfd, SIOCGIWNAME, &ifr) == 0) {
             strncpy(wifi_interface, iface->if_name, IFNAMSIZ - 1);
-            break;
-        } else {
-            strcpy(wifi_interface, "not found");
+            --i;
+        } else if (strcmp(iface->if_name, "lo") == 0) {
+            --i;
+        } else if (i < 5) {
+            strcpy(ifaces[i], iface->if_name);
+            *count_ifaces = i + 1;
         }
     }
 

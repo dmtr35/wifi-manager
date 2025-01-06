@@ -107,3 +107,26 @@ void del_wifi_proc(char *interface)
     free(command);
 }
 
+// выключить интерфейс
+void iface_down(char *interface)
+{
+    size_t size_command = strlen(interface) + 18;
+    char *command = malloc(size_command);
+    snprintf(command, size_command, "ip link set %s down", interface);
+    usleep(100000);
+
+    system(command);
+    free(command);
+}
+// включить интерфейс
+void iface_up(char *interface)
+{
+    size_t size_command = strlen(interface) + 16;
+    char *command = malloc(size_command);
+    snprintf(command, size_command, "ip link set %s up", interface);
+    usleep(100000);
+
+    system(command);
+    free(command);
+}
+

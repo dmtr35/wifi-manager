@@ -26,15 +26,17 @@
 #define NUM_WIFI_LIST 30
 #define MAX_LEN 64
 #define INT_64 64
+#define INT_32 32
 #define SIZE_BUFF 64
 #define ADDR_LEN 16
 #define COLOR_GREY 8
 
 
-
 typedef struct wifi_data {
     int wifi_status;
+    int count_ifaces;
     char wifi_IP[ADDR_LEN];
+    char ifaces[5][INT_32];
     char wifi_interface[INT_64];
     char wifi_mask_cidr[INT_64];
     char wifi_mask[INT_64];
@@ -91,6 +93,8 @@ int create_empty_line(char empty_line, int count);
 int validate_input(const char *ip, const char *pattern_ip);
 int cidr_to_netmask(char *mask, char *wifi_mask);
 void del_wifi_proc(char *interface);
+void iface_down(char *interface);
+void iface_up(char *interface);
 
 // enter/header/enter_header.c
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord);

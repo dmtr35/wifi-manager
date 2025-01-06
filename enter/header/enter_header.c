@@ -9,10 +9,15 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
     char *wifi_interface = ptr_wifi_data->wifi_interface;
     char *gateway_default = ptr_wifi_data->gateway_default;
     int *wifi_status = &ptr_wifi_data->wifi_status;
+    int *count_ifaces = &ptr_wifi_data->count_ifaces;
     _Bool *bool_render_list = &coord->bool_render_list;
+    char (*ifaces)[INT_32] = ptr_wifi_data->ifaces;
 
     switch (*cur_header) {
     case 2:
+        for (int i = 0; i < *count_ifaces; ++i) {
+            set_interface_state(ifaces[i], *wifi_status);
+        }
         set_interface_state(wifi_interface, !*wifi_status);
         wifi_info(ptr_wifi_data);
         if (*wifi_status == 1) {

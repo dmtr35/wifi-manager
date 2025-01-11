@@ -7,7 +7,7 @@ int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi)
 
     WINDOW *win_menu;
     int ch;
-    // char buffer_pass[MAX_LEN] = {0};
+    // char buffer_pass[INT_64] = {0};
     // int buffer_pos = 0;
     // int max_buf = 64;
     // const char *pattern_pass = "^[a-zA-Z0-9@$!%*?&]{8,63}$";

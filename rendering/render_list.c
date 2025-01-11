@@ -28,9 +28,8 @@ int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool 
     //     mvwprintw(list, j, 1, "%-*s", *width_list - 2, "");
     // }
     if (list_wifi[0] != 0) {
-            for (int i = 0, j = 1; i < *visible_lines; ++i, ++j) {
+        for (int i = 0, j = 1; i < *visible_lines; ++i, ++j) {
             wattron(list, A_BOLD);
-            // mvwprintw(list, j, 1, "%-*s", *width_list - 2, "");
             if (*cur_list == j) {
                 wattron(list, COLOR_PAIR(2));
                 mvwprintw(list, j, 1, "%s", list_wifi[i + *offset]);

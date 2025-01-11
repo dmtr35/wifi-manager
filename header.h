@@ -24,7 +24,6 @@
 #include <locale.h>
 
 #define NUM_WIFI_LIST 30
-#define MAX_LEN 64
 #define INT_64 64
 #define INT_32 32
 #define SIZE_BUFF 64

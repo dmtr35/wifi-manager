@@ -5,7 +5,7 @@ int render_create_config(wifi_data *ptr_wifi_data, data_wifi_menu *wifi_menu)
 {
     WINDOW *win_pass;
     int ch;
-    char buffer_pass[MAX_LEN] = {0};
+    char buffer_pass[INT_64] = {0};
     int buffer_pos = 0;
     int max_buf = 64;
     const char *pattern_pass = "^[a-zA-Z0-9@$!%*?&]{8,63}$";

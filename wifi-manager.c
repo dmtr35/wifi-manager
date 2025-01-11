@@ -20,7 +20,7 @@ int main()
     coord_win *coord = malloc(sizeof(coord_win));
     char **list_wifi = malloc(NUM_WIFI_LIST * sizeof(char *));
     for (int i = 0; i < NUM_WIFI_LIST; ++i) {
-        list_wifi[i] = malloc(MAX_LEN * sizeof(char));
+        list_wifi[i] = malloc(INT_64 * sizeof(char));
     }
 
     int *cur_header = &coord->cur_header;

@@ -2,7 +2,7 @@
 
 
 WINDOW *header, *list, *frame;
-
+const char *path_supplicant = "/etc/wpa_supplicant/";
 
 int main()
 {

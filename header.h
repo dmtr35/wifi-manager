@@ -18,7 +18,7 @@
 #include <ctype.h>
 #include <regex.h>
 #include <linux/route.h>
-
+#include <dirent.h>
 
 #include <ncurses.h>
 #include <locale.h>
@@ -30,7 +30,9 @@
 #define SIZE_BUFF 64
 #define ADDR_LEN 16
 #define COLOR_GREY 8
+#define MAX_LINE 256
 
+extern const char *path_supplicant;
 
 typedef struct wifi_data {
     int wifi_status;
@@ -64,8 +66,17 @@ typedef struct coord_win {
     int visible_lines;
     int full_lines;
 
+    int cur_menu;
+
     _Bool bool_render_list;
 } coord_win;
+
+typedef struct data_wifi_menu {
+    int cur_menu;
+    int height_menu_x; 
+    int width_menu_y;
+    char *wifi_name;
+} data_wifi_menu;
 
 
 
@@ -95,6 +106,8 @@ int cidr_to_netmask(char *mask, char *wifi_mask);
 void del_wifi_proc(char *interface);
 void iface_down(char *interface);
 void iface_up(char *interface);
+int check_config_file(char list_config[][INT_64]);
+int get_pass(char *wifi_name, char *wifi_pass);
 
 // enter/header/enter_header.c
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord);
@@ -109,8 +122,14 @@ int delete_gateway(wifi_data *ptr_wifi_data);
 
 // enter/list/enter_list.c
 int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
+// enter/list/enter_menu.c
+int enter_menu(wifi_data *ptr_wifi_data, data_wifi_menu *wifi_menu);
+// enter/list/render_create_conf.c
+int render_create_config(wifi_data *ptr_wifi_data, data_wifi_menu *wifi_menu);
+// enter/list/set_create_conf.c
+int set_create_conf(wifi_data *ptr_wifi_data, char *wifi_name, char *wifi_pass);
 // enter/list/set_connect.c
-int set_connect(wifi_data *ptr_wifi_data, char *wifi_name, char *buffer_pass);
+int set_connect(wifi_data *ptr_wifi_data, char *wifi_name, char *wifi_pass);
 
 // command_line/buffer_save.c
 int add_char_to_enter(WINDOW *win, int ch, int max_buf, char *buffer_ip, int *buffer_pos);

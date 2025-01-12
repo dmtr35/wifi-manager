@@ -4,7 +4,7 @@
 int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _Bool *active)
 {
     int *cur_header = &coord->cur_header;
-    char fields[4][256];
+    char fields[4][MAX_LINE];
     form_header(ptr_wifi_data, coord, fields);
   
     start_color();
@@ -31,7 +31,7 @@ int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _B
 
 
 
-int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256])
+int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][MAX_LINE])
 {
     int *width_win = &coord->width_win;
     char *wifi_interface = ptr_wifi_data->wifi_interface;
@@ -40,14 +40,22 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256])
     char *wifi_mask_cidr = ptr_wifi_data->wifi_mask_cidr;
     char *gateway_default = ptr_wifi_data->gateway_default;
 
-    char wifi_data_mod[4][64];
+    int count_wifi_data_mod = 4;
+    char wifi_data_mod[count_wifi_data_mod][INT_64];
     snprintf(wifi_data_mod[0], strlen(wifi_interface) + 14, " Interface:  %s", wifi_interface);
     snprintf(wifi_data_mod[1], strlen(*wifi_status == 1 ? "UP" : "DUWN") + 14, " Status:     %s", *wifi_status == 1 ? "UP" : "DUWN");
     snprintf(wifi_data_mod[2], strlen(wifi_IP) + strlen(wifi_mask_cidr) + 14, " IP:         %s%s", wifi_IP, wifi_mask_cidr);
     snprintf(wifi_data_mod[3], strlen(gateway_default) + 14, " Gateway:    %s", gateway_default);
 
+    add_empty_line(coord, wifi_data_mod, count_wifi_data_mod, fields);
+}
 
-    for (int i = 0; i < 4; ++i) {
+
+int add_empty_line(coord_win *coord, char wifi_data_mod[][INT_64], int count_wifi_data_mod, char fields[][MAX_LINE])
+{   
+    int *width_win = &coord->width_win;
+
+    for (int i = 0; i < count_wifi_data_mod; ++i) {
         size_t size_wifi_data = strlen(wifi_data_mod[i]);
         int size_empty_line = *width_win - size_wifi_data - 2;
 

@@ -18,6 +18,8 @@ int main()
     _Bool active = false;
     wifi_data *ptr_wifi_data = malloc(sizeof(wifi_data));
     coord_win *coord = malloc(sizeof(coord_win));
+
+    // char list_wifi[NUM_WIFI_LIST][INT_64];
     char **list_wifi = malloc(NUM_WIFI_LIST * sizeof(char *));
     for (int i = 0; i < NUM_WIFI_LIST; ++i) {
         list_wifi[i] = malloc(INT_64 * sizeof(char));

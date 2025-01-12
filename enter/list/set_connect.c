@@ -2,8 +2,6 @@
 
 int set_connect(wifi_data *ptr_wifi_data, char *wifi_name, char *wifi_pass)
 {
-    // const char *path_supplicant = "/etc/wpa_supplicant/";
-    // extern const char *path_supplicant;
     char *wifi_interface = ptr_wifi_data->wifi_interface;
 
     size_t size_connect = strlen(wifi_interface) + strlen(path_supplicant) + strlen(wifi_name) + 37;

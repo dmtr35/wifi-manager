@@ -2,7 +2,7 @@
 
 
 
-int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi)
+int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][INT_64])
 {
     struct timespec start, end;
     double elapsed;

@@ -1,5 +1,6 @@
 #include "../../header.h"
 
+
 int set_connect(wifi_data *ptr_wifi_data, char *wifi_name, char *wifi_pass)
 {
     char *wifi_interface = ptr_wifi_data->wifi_interface;

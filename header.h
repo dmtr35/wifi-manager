@@ -87,13 +87,13 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256]);
 int add_empty_line(coord_win *coord, char wifi_data_mod[][INT_64], int count_wifi_data_mod, char fields[][MAX_LINE]);
 
 // rendering/render_list.c
-int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool *active, char **list_wifi, _Bool tab);
+int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool *active, char list_wifi[][64], _Bool tab);
 
 // wifi_dev.c
 int wifi_dev(wifi_data *ptr_wifi_data);
 int wifi_info(wifi_data *ptr_wifi_data);
 // take_wifi_list.c
-int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
+int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][64]);
 // int* take_list_wifi(int *arg);
 
 
@@ -121,7 +121,7 @@ int change_gateway(wifi_data *ptr_wifi_data, char *buffer_gateway);
 int delete_gateway(wifi_data *ptr_wifi_data);
 
 // enter/list/enter_list.c
-int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char **list_wifi);
+int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][64]);
 // enter/list/enter_menu.c
 int enter_menu(wifi_data *ptr_wifi_data, data_wifi_menu *wifi_menu);
 // enter/list/render_create_conf.c

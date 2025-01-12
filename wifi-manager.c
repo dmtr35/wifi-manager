@@ -19,11 +19,11 @@ int main()
     wifi_data *ptr_wifi_data = malloc(sizeof(wifi_data));
     coord_win *coord = malloc(sizeof(coord_win));
 
-    // char list_wifi[NUM_WIFI_LIST][INT_64];
-    char **list_wifi = malloc(NUM_WIFI_LIST * sizeof(char *));
-    for (int i = 0; i < NUM_WIFI_LIST; ++i) {
-        list_wifi[i] = malloc(INT_64 * sizeof(char));
-    }
+    char list_wifi[NUM_WIFI_LIST][MAX_LINE] = {};
+    // char list_wifi[][INT_64] = malloc(NUM_WIFI_LIST * sizeof(char *));
+    // for (int i = 0; i < NUM_WIFI_LIST; ++i) {
+    //     list_wifi[i] = malloc(INT_64 * sizeof(char));
+    // }
 
     int *cur_header = &coord->cur_header;
     int *cur_list = &coord->cur_list;
@@ -140,10 +140,10 @@ int main()
     }
 
 
-    for (int i = 0; i < NUM_WIFI_LIST; ++i) {
-        free(list_wifi[i]);
-    }
-    free(list_wifi);
+    // for (int i = 0; i < NUM_WIFI_LIST; ++i) {
+    //     free(list_wifi[i]);
+    // }
+    // free(list_wifi);
     free(ptr_wifi_data);
     free(coord);
     endwin();

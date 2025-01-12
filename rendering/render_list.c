@@ -1,7 +1,7 @@
 #include "../header.h"
 
 
-int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool *active, char **list_wifi, _Bool bool_render_list)
+int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool *active, char list_wifi[][INT_64], _Bool bool_render_list)
 {   
     if (bool_render_list) {
         take_list_wifi(ptr_wifi_data, coord, list_wifi);

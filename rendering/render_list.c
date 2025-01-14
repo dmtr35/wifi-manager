@@ -27,9 +27,9 @@ int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool 
     init_pair(13, COLOR_WHITE, COLOR_GREY);
     *active ? wbkgd(list, COLOR_PAIR(1)) : wbkgd(list, COLOR_PAIR(13));
 
-    // for (int i = 0, j = 1; i < *height_list - 2; ++i, ++j) {
-    //     mvwprintw(list, j, 1, "%-*s", *width_list - 2, "");
-    // }
+    for (int i = 0, j = 1; i < *height_list - 2; ++i, ++j) {
+        mvwprintw(list, j, 1, "%-*s", *width_list - 2, "");
+    }
     if (new_list_wifi[0] != 0) {
         for (int i = 0, j = 1; i < *visible_lines; ++i, ++j) {
             wattron(list, A_BOLD);

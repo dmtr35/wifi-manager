@@ -93,12 +93,6 @@ int set_ip_address(wifi_data *ptr_wifi_data, char *buffer_ip) {
         // close(fd);
         // return -1;
     }
-    // Включаем интерфейс (если он не включен)
-    // if (ioctl(fd, SIOCSIFFLAGS, &ifr) < 0) {
-    //     perror("Failed to bring up interface");
-    //     close(fd);
-    //     return -1;
-    // }
 
     close(fd);
     return 0;

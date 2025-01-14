@@ -25,10 +25,8 @@ int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _B
         }
         wattroff(header, A_BOLD);
     }
-
     wrefresh(header);
 }
-
 
 
 int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][MAX_LINE])

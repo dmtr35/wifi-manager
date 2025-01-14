@@ -7,8 +7,6 @@ int add_empty_line(wifi_data *ptr_wifi_data, coord_win *coord, char list[][INT_6
     char *interface = ptr_wifi_data->wifi_interface;
     char wifi_connected[64] = {0};
 
-    // char wifi_connected[64] = "kyivstar_FF7A";
-
     if (bool_render_list) {
         check_connect(interface, wifi_connected);
     }

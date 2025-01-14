@@ -8,7 +8,6 @@ int main()
 {
     setlocale(LC_ALL, "");
     initscr();                                  // инициализация ncurses
-    // nodelay(stdscr, TRUE);                      // блокирующий режим
     noecho();                                   // Отключаем вывод введенных символов
     cbreak();
     keypad(stdscr, TRUE);                       // Включаем обработку функциональных клавиш

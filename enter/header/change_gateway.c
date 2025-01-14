@@ -14,7 +14,7 @@ int change_gateway(wifi_data *ptr_wifi_data, char *buffer_gateway) {
 
     // create the socket
     if (((sockfd = socket(AF_INET, SOCK_DGRAM, 0))) < 0) {
-        perror("socket");
+        // perror("socket");
         exit(1);
     }
 

@@ -4,14 +4,12 @@
 
 int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][INT_64])
 {
-
     WINDOW *win_menu;
     int ch;
     char fields[3][14] = {0};
     strcpy(fields[0], "connect");
     strcpy(fields[1], "create config");
     strcpy(fields[2], "disconnect");
-
     
     int *cur_list = &coord->cur_list;
     int *offset = &coord->offset;
@@ -37,8 +35,6 @@ int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][INT_
     win_menu = newwin(6, 30, height_menu_x, width_menu_y);
     wborder(win_menu, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
     keypad(win_menu, TRUE);
-
-
 
     start_color();
     init_pair(14, COLOR_WHITE, COLOR_GREEN);

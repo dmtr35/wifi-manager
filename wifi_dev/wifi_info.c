@@ -12,13 +12,13 @@ int wifi_dev(wifi_data *ptr_wifi_data)
 
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0) {
-        perror("socket");
+        // perror("socket");
         return 1;
     }
 
     interfaces = if_nameindex();
     if (!interfaces) {
-        perror("if_nameindex");
+        // perror("if_nameindex");
         close(sockfd);
         return 1;
     }
@@ -62,7 +62,7 @@ int wifi_info(wifi_data *ptr_wifi_data)
 
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0) {
-        perror("socket");
+        // perror("socket");
         return 1;
     }
 

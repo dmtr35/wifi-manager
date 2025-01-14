@@ -41,7 +41,6 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
 }
 
 
-
 int set_interface_state(const char *wifi_interface, int state) {
     int sock;
     struct ifreq ifr;
@@ -49,7 +48,7 @@ int set_interface_state(const char *wifi_interface, int state) {
     // Создаём сокет для управления интерфейсом
     sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock < 0) {
-        perror("socket");
+        // perror("socket");
         return 1;
     }
 
@@ -59,7 +58,7 @@ int set_interface_state(const char *wifi_interface, int state) {
 
     // Получаем текущие флаги интерфейса
     if (ioctl(sock, SIOCGIFFLAGS, &ifr) < 0) {
-        perror("ioctl(SIOCGIFFLAGS)");
+        // perror("ioctl(SIOCGIFFLAGS)");
         close(sock);
         return 1;
     }
@@ -73,7 +72,7 @@ int set_interface_state(const char *wifi_interface, int state) {
 
     // Устанавливаем новые флаги интерфейса
     if (ioctl(sock, SIOCSIFFLAGS, &ifr) < 0) {
-        perror("ioctl(SIOCSIFFLAGS)");
+        // perror("ioctl(SIOCSIFFLAGS)");
     }
 
     sleep(1);

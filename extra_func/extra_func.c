@@ -169,7 +169,7 @@ int check_config_file(char list_config[][INT_64])
     DIR *dir = opendir(path_supplicant);
 
     if (dir == NULL){
-        perror("Error opening directory");
+        // perror("Error opening directory");
         return 1;
     }
     struct dirent *entry;                                   // прочитать содержимое директории

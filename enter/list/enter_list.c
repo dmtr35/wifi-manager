@@ -7,14 +7,10 @@ int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][INT_
 
     WINDOW *win_menu;
     int ch;
-    // char buffer_pass[INT_64] = {0};
-    // int buffer_pos = 0;
-    // int max_buf = 64;
-    // const char *pattern_pass = "^[a-zA-Z0-9@$!%*?&]{8,63}$";
     char fields[3][14] = {0};
     strcpy(fields[0], "connect");
     strcpy(fields[1], "create config");
-    strcpy(fields[2], "xxx");
+    strcpy(fields[2], "disconnect");
 
     
     int *cur_list = &coord->cur_list;
@@ -87,23 +83,6 @@ int enter_list(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][INT_
         if (ch == 27) {                                                 // ESC
             break;
         }
-
-        
-    //     if (ch == '\n') {
-    //         if (validate_input(buffer_pass, pattern_pass)) {
-    //             set_connect(ptr_wifi_data, wifi_name, buffer_pass);
-    //             break;
-    //         } else {
-    //             break;
-    //         }
-    //     } else if (ch == KEY_BACKSPACE || ch == 127) {
-    //         delete_char_from_enter(win_menu, buffer_pass, &buffer_pos);
-    //     } else if (ch > 20 && ch < 127) {
-    //         add_char_to_enter(win_menu, ch, max_buf, buffer_pass, &buffer_pos);
-    //     }
-
-
-        // wrefresh(win_menu);
     }
 }
 

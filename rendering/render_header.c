@@ -47,34 +47,9 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][MAX_LI
     snprintf(wifi_data_mod[2], strlen(wifi_IP) + strlen(wifi_mask_cidr) + 14, " IP:         %s%s", wifi_IP, wifi_mask_cidr);
     snprintf(wifi_data_mod[3], strlen(gateway_default) + 14, " Gateway:    %s", gateway_default);
 
-    add_empty_line(coord, wifi_data_mod, count_wifi_data_mod, fields);
+    add_empty_line(ptr_wifi_data, coord, wifi_data_mod, count_wifi_data_mod, fields, 0);
 }
 
 
-int add_empty_line(coord_win *coord, char wifi_data_mod[][INT_64], int count_wifi_data_mod, char fields[][MAX_LINE])
-{   
-    int *width_win = &coord->width_win;
 
-    for (int i = 0; i < count_wifi_data_mod; ++i) {
-        size_t size_wifi_data = strlen(wifi_data_mod[i]);
-        int size_empty_line = *width_win - size_wifi_data - 2;
-
-        if (size_empty_line < 0) {
-            size_empty_line = 0;
-        }
-
-        char *empty_line = malloc(size_empty_line + 1);
-        if (!empty_line) {
-            fprintf(stderr, "Ошибка выделения памяти\n");
-            return -1;
-        }
-
-        memset(empty_line, ' ', size_empty_line);
-        empty_line[size_empty_line] = '\0';
-        
-        int size_fields = size_wifi_data + strlen(empty_line) + 1;
-        snprintf(fields[i], size_fields, "%s%s", wifi_data_mod[i], empty_line);
-        free(empty_line);
-    }
-}
 

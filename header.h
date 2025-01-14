@@ -19,6 +19,7 @@
 #include <regex.h>
 #include <linux/route.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
 #include <ncurses.h>
 #include <locale.h>
@@ -84,7 +85,6 @@ typedef struct data_wifi_menu {
 // rendering/render_header.c
 int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _Bool *active);
 int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][256]);
-int add_empty_line(coord_win *coord, char wifi_data_mod[][INT_64], int count_wifi_data_mod, char fields[][MAX_LINE]);
 
 // rendering/render_list.c
 int render_list(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *list, _Bool *active, char list_wifi[][64], _Bool tab);
@@ -106,8 +106,11 @@ int cidr_to_netmask(char *mask, char *wifi_mask);
 void del_wifi_proc(char *interface);
 void iface_down(char *interface);
 void iface_up(char *interface);
+int check_connect(char *interface, char *result);
 int check_config_file(char list_config[][INT_64]);
 int get_pass(char *wifi_name, char *wifi_pass);
+// extra_func/rendering_new_list.c
+int add_empty_line(wifi_data *ptr_wifi_data, coord_win *coord, char list[][INT_64], int count_wifi_data_mod, char new_list[][MAX_LINE], _Bool header_or_list);
 
 // enter/header/enter_header.c
 int enter_header(wifi_data *ptr_wifi_data, coord_win *coord);

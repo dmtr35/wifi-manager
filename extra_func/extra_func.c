@@ -1,4 +1,5 @@
 #include "../header.h"
+
 // 255.255.255.0
 // преобразование маски подсети в вид cidr (/24)
 int netmask_to_cidr(const char *netmask)
@@ -72,7 +73,6 @@ int calculate_coord_win(wifi_data *ptr_wifi_data, coord_win *coord)
 // проверка ip и маски регулярными выражениями
 int validate_input(const char *value, const char *pattern)
 {
-    
     regex_t regex;
     int ret;
 
@@ -95,24 +95,33 @@ int validate_input(const char *value, const char *pattern)
     }
 }
 
-// удалить все процессы связанные с wifi интерфейсом
+// Остановка процесса wpa_supplicant
 void del_wifi_proc(char *interface)
 {
-    size_t size_command = strlen(interface) + 79;
-    char *command = malloc(size_command);
-    snprintf(command, size_command, "ps -aux | grep %s | awk '{print $2}' | while read LINE; do sudo kill $LINE; done", interface);
-    usleep(100000);
+    size_t size_path = strlen(interface) + 21;
+    char *path = malloc(size_path);
+    snprintf(path, size_path, "/run/wpa_supplicant/%s", interface);
 
-    system(command);
-    free(command);
+    struct stat buffer;
+    if (stat(path, &buffer) == 0) {
+        // size_t size_command = strlen(interface) + 34;
+        size_t size_command = strlen(interface) + 38;
+        char *command = malloc(size_command);
+        // snprintf(command, size_command, "wpa_cli -i %s terminate 2>/dev/null", interface);
+        snprintf(command, size_command, "wpa_cli -i %s terminate >/dev/null 2>&1", interface);
+        system(command);
+        sleep(1);
+
+        free(command);
+    }
 }
 
 // выключить интерфейс
 void iface_down(char *interface)
 {
-    size_t size_command = strlen(interface) + 18;
+    size_t size_command = strlen(interface) + 30;
     char *command = malloc(size_command);
-    snprintf(command, size_command, "ip link set %s down", interface);
+    snprintf(command, size_command, "ip link set %s down 2>/dev/null", interface);
     usleep(100000);
 
     system(command);
@@ -121,13 +130,36 @@ void iface_down(char *interface)
 // включить интерфейс
 void iface_up(char *interface)
 {
-    size_t size_command = strlen(interface) + 16;
+    size_t size_command = strlen(interface) + 28;
     char *command = malloc(size_command);
-    snprintf(command, size_command, "ip link set %s up", interface);
+    snprintf(command, size_command, "ip link set %s up 2>/dev/null", interface);
     usleep(100000);
 
     system(command);
     free(command);
+}
+
+// check_connect проверка есть ли соединение
+int check_connect(char *interface, char *result)
+{
+    FILE *fp;
+    char buff[INT_64];
+    size_t size_command = strlen(interface) + 48;
+    char *command = malloc(size_command);
+    snprintf(command, size_command, "wpa_cli -i %s status 2>/dev/null | grep -P ^ssid=", interface);
+    usleep(100000);
+
+    fp = popen(command, "r");
+    if (fp == NULL) {
+        free(command);
+        return 0;
+    }    
+
+    fgets(buff, INT_64, fp);
+    buff[strcspn(buff, "\n")] = '\0';
+    strcpy(result, buff + 5);
+    free(command);
+    return 1;
 }
 
 // check config file
@@ -191,4 +223,5 @@ int get_pass(char *wifi_name, char *wifi_pass)
     free(full_path);
     fclose(file);
 }
+
 

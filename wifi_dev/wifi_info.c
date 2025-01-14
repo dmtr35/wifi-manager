@@ -53,6 +53,11 @@ int wifi_info(wifi_data *ptr_wifi_data)
     char *wifi_mask = ptr_wifi_data->wifi_mask;
     char *gateway_default = ptr_wifi_data->gateway_default;
 
+    memset(wifi_IP, '\0', strlen(wifi_IP));
+    memset(wifi_mask_cidr, '\0', strlen(wifi_mask_cidr));
+    memset(wifi_mask, '\0', strlen(wifi_mask));
+    memset(gateway_default, '\0', strlen(gateway_default));
+
     struct ifreq ifr;
 
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -72,7 +77,7 @@ int wifi_info(wifi_data *ptr_wifi_data)
             *wifi_status = 0;
         }
     } else {
-        perror("Ошибка получения флагов интерфейса");
+        // perror("Ошибка получения флагов интерфейса");
     }
 
     // Получение IP-адреса
@@ -80,7 +85,7 @@ int wifi_info(wifi_data *ptr_wifi_data)
         struct sockaddr_in *ipaddr = (struct sockaddr_in *)&ifr.ifr_addr;
         strcpy(wifi_IP, inet_ntoa(ipaddr->sin_addr));
     } else {
-        perror("Ошибка получения IP-адреса");
+        // perror("Ошибка получения IP-адреса");
     }
 
     // Получение маски подсети
@@ -91,13 +96,13 @@ int wifi_info(wifi_data *ptr_wifi_data)
         int res = netmask_to_cidr(wifi_mask);
         sprintf(wifi_mask_cidr, "/%d", res);
     } else {
-        perror("Ошибка получения маски подсети");
+        // perror("Ошибка получения маски подсети");
     }
 
     // Получение шлюза по умолчанию
     FILE *route_file = fopen("/proc/net/route", "r");
     if (!route_file) {
-        perror("Ошибка открытия /proc/net/route");
+        // perror("Ошибка открытия /proc/net/route");
         close(sockfd);
         return 1;
     }

@@ -20,7 +20,6 @@
 #include <linux/route.h>
 #include <dirent.h>
 #include <sys/stat.h>
-
 #include <ncurses.h>
 #include <locale.h>
 

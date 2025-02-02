@@ -1,7 +1,6 @@
 #include "../header.h"
 
 
-
 int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][INT_64])
 {
     struct timespec start, end;
@@ -17,7 +16,6 @@ int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][
     char wifi_list_buff[30][INT_64] = {0};
 
     check_config_file(list_config);
-    // size_t tt2 = sizeof(list_config);
     
     *full_lines = 0;
     char *command = malloc(size_command);
@@ -31,12 +29,15 @@ int take_list_wifi(wifi_data *ptr_wifi_data, coord_win *coord, char list_wifi[][
     }
 
     while (i < NUM_WIFI_LIST) {
+        char *ch;
+        
         if (fgets(buffer, SIZE_BUFF, fp) == NULL) {
             break;
         }
         if (buffer[0] == '\n') {
             continue;
         }
+
         buffer[strcspn(buffer, "\n")] = '\0';
         size_t size_buf = strlen(buffer);
 

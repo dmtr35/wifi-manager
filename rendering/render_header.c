@@ -4,7 +4,7 @@
 int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _Bool *active)
 {
     int *cur_header = &coord->cur_header;
-    char fields[4][MAX_LINE];
+    char fields[5][MAX_LINE];
     form_header(ptr_wifi_data, coord, fields);
   
     start_color();
@@ -14,7 +14,7 @@ int render_header(wifi_data *ptr_wifi_data, coord_win *coord, WINDOW *header, _B
     init_pair(13, COLOR_WHITE, COLOR_GREY);
     *active ? wbkgd(header, COLOR_PAIR(13)) : wbkgd(header, COLOR_PAIR(1));
 
-    for (int i = 0, j = 1; i < 4; ++i, ++j) {
+    for (int i = 0, j = 1; i < 5; ++i, ++j) {
         wattron(header, A_BOLD);
         if (*cur_header == j) {
             wattron(header, COLOR_PAIR(2));
@@ -37,13 +37,15 @@ int form_header(wifi_data *ptr_wifi_data, coord_win *coord, char fields[][MAX_LI
     char *wifi_IP = ptr_wifi_data->wifi_IP;
     char *wifi_mask_cidr = ptr_wifi_data->wifi_mask_cidr;
     char *gateway_default = ptr_wifi_data->gateway_default;
+    char *dns = ptr_wifi_data->dns;
 
-    int count_wifi_data_mod = 4;
+    int count_wifi_data_mod = 5;
     char wifi_data_mod[count_wifi_data_mod][INT_64];
     snprintf(wifi_data_mod[0], strlen(wifi_interface) + 14, " Interface:  %s", wifi_interface);
     snprintf(wifi_data_mod[1], strlen(*wifi_status == 1 ? "UP" : "DUWN") + 14, " Status:     %s", *wifi_status == 1 ? "UP" : "DUWN");
     snprintf(wifi_data_mod[2], strlen(wifi_IP) + strlen(wifi_mask_cidr) + 14, " IP:         %s%s", wifi_IP, wifi_mask_cidr);
     snprintf(wifi_data_mod[3], strlen(gateway_default) + 14, " Gateway:    %s", gateway_default);
+    snprintf(wifi_data_mod[4], strlen(dns) + 14, " DNS:        %s", dns);
 
     add_empty_line(ptr_wifi_data, coord, wifi_data_mod, count_wifi_data_mod, fields, 0);
 }

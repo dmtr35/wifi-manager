@@ -36,7 +36,7 @@ int set_gateway(wifi_data *ptr_wifi_data, coord_win *coord)
         }
         else if (ch == KEY_BACKSPACE || ch == 127) {
             delete_char_from_enter(win_gateway, buffer_gateway, &buffer_pos);
-        } else if (ch > 45 && ch < 58) {
+        } else if (ch > 45 && ch < 58 && ch != 47) {
             add_char_to_enter(win_gateway, ch, max_buf, buffer_gateway, &buffer_pos);
         }
 

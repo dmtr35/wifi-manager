@@ -46,16 +46,18 @@ int main()
 
     wifi_dev(ptr_wifi_data);
     wifi_info(ptr_wifi_data);
+    dns_info(ptr_wifi_data);
 
 
     while (1) {
         getmaxyx(stdscr, *height, *width);
         calculate_coord_win(ptr_wifi_data, coord);
-        header = newwin(6, *width_win, *height_x, *width_y);
+
+        header = newwin(7, *width_win, *height_x, *width_y);
         wborder(header, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
         keypad(header, TRUE);
 
-        list = newwin(*height_win - 7, *width_win, *height_x+6, *width_y);
+        list = newwin(*height_win-8, *width_win, *height_x+7, *width_y);
         wborder(list, ACS_VLINE, ACS_VLINE, ACS_HLINE, ACS_HLINE, ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);
         keypad(list, TRUE);
 
@@ -73,13 +75,13 @@ int main()
                 if (*cur_header > 1) {
                     (*cur_header)--;
                 } else if (*cur_header == 1) {
-                    *cur_header = 4;
+                    *cur_header = 5;
                 }
                 break;
             case KEY_DOWN:
-                if (*cur_header < 4) {
+                if (*cur_header < 5) {
                     (*cur_header)++;
-                } else if (*cur_header == 4) {
+                } else if (*cur_header == 5) {
                     *cur_header = 1;
                 }
                 break;

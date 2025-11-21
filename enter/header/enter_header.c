@@ -14,28 +14,32 @@ int enter_header(wifi_data *ptr_wifi_data, coord_win *coord)
     char (*ifaces)[INT_32] = ptr_wifi_data->ifaces;
 
     switch (*cur_header) {
-    case 2:
-        for (int i = 0; i < *count_ifaces; ++i) {
-            set_interface_state(ifaces[i], *wifi_status);
-        }
-        set_interface_state(wifi_interface, !*wifi_status);
-        wifi_info(ptr_wifi_data);
-        if (*wifi_status == 1) {
-            *bool_render_list = true;
-        } else {
-            del_wifi_proc(wifi_interface);
-        }
-        *cur_list = 1;
-        *full_lines = 0;
-        break;
-    case 3:
-        set_ip(ptr_wifi_data, coord);
-        wifi_info(ptr_wifi_data);
-        break;
-    case 4:
-        set_gateway(ptr_wifi_data, coord);
-        wifi_info(ptr_wifi_data);
-        break;
+        case 2:
+            for (int i = 0; i < *count_ifaces; ++i) {
+                set_interface_state(ifaces[i], *wifi_status);
+            }
+            set_interface_state(wifi_interface, !*wifi_status);
+            wifi_info(ptr_wifi_data);
+            if (*wifi_status == 1) {
+                *bool_render_list = true;
+            } else {
+                del_wifi_proc(wifi_interface);
+            }
+            *cur_list = 1;
+            *full_lines = 0;
+            break;
+        case 3:
+            set_ip(ptr_wifi_data, coord);
+            wifi_info(ptr_wifi_data);
+            break;
+        case 4:
+            set_gateway(ptr_wifi_data, coord);
+            wifi_info(ptr_wifi_data);
+            break;
+        case 5:
+            set_dns(ptr_wifi_data, coord);
+            dns_info(ptr_wifi_data);
+            break;
     }
     return 0;
 }

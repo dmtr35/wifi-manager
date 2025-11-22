@@ -27,7 +27,7 @@ int set_dns(wifi_data *ptr_wifi_data, coord_win *coord)
         ch = wgetch(win_dns);
 
         if (ch == '\n') {
-            if (validate_input(buffer_dns, pattern_dns)) {
+            if (validate_input(buffer_dns, pattern_dns) || strcmp(buffer_dns, "0") == 0) {
                 change_dns(buffer_dns);
                 break;
             } else {

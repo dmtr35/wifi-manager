@@ -29,7 +29,10 @@ int set_ip(wifi_data *ptr_wifi_data, coord_win *coord)
         ch = wgetch(win_ip);
 
         if (ch == '\n') {
-            if (validate_input(buffer_ip, pattern_ip)) {
+            if (strcmp(buffer_ip, "0") == 0) {
+                set_empty_address(ptr_wifi_data);
+                break;
+            } else if (validate_input(buffer_ip, pattern_ip)) {
                 set_ip_address(ptr_wifi_data, buffer_ip);
                 break;
             } else {
@@ -92,6 +95,43 @@ int set_ip_address(wifi_data *ptr_wifi_data, char *buffer_ip) {
         // perror("Failed to set netmask");
         // close(fd);
         // return -1;
+    }
+
+    close(fd);
+    return 0;
+}
+
+int set_empty_address(wifi_data *ptr_wifi_data)
+{
+    char *wifi_interface = ptr_wifi_data->wifi_interface;
+
+    int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (fd < 0) return -1;
+
+    struct ifreq ifr;
+    struct sockaddr_in *addr;
+
+    memset(&ifr, 0, sizeof(ifr));
+    strncpy(ifr.ifr_name, wifi_interface, IFNAMSIZ);
+
+    // 1. СБРОС IP: ставим 0.0.0.0
+    addr = (struct sockaddr_in *)&ifr.ifr_addr;
+    addr->sin_family = AF_INET;
+    addr->sin_addr.s_addr = htonl(INADDR_ANY);  // 0.0.0.0
+
+    if (ioctl(fd, SIOCSIFADDR, &ifr) < 0) {
+        close(fd);
+        return -1;
+    }
+
+    // 2. СБРОС МАСКИ: ставим 0.0.0.0
+    addr = (struct sockaddr_in *)&ifr.ifr_netmask;
+    addr->sin_family = AF_INET;
+    addr->sin_addr.s_addr = htonl(INADDR_ANY);  // 0.0.0.0
+
+    if (ioctl(fd, SIOCSIFNETMASK, &ifr) < 0) {
+        close(fd);
+        return -1;
     }
 
     close(fd);

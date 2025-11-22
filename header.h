@@ -100,6 +100,7 @@ int set_gateway(wifi_data *ptr_wifi_data, coord_win *coord);
 
 int set_ip(wifi_data *ptr_wifi_data, coord_win *coord);
 int set_ip_address(wifi_data *ptr_wifi_data, char *buffer_ip);
+int set_empty_address(wifi_data *ptr_wifi_data);
 // ----------------------------------------------------------------
 
 

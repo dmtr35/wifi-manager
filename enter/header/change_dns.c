@@ -2,16 +2,17 @@
 
 
 int change_dns(char *buffer_dns) {
-    char dns_str[27] = {0};
-    snprintf(dns_str, sizeof(dns_str), "nameserver %s", buffer_dns);
+    FILE *f = fopen("/etc/resolv.conf", "w");
+    if (!f) return -1;
 
-    size_t size_comm = strlen(dns_str) + 27;
+    // Если пользователь ввёл "0" → очищаем файл
+    if (strcmp(buffer_dns, "0") == 0) {
+        fclose(f);
+        return 0;
+    }
 
-    char *command = calloc(size_comm, sizeof(char));
-    snprintf(command, size_comm, "echo '%s' > /etc/resolv.conf", dns_str);
-
-    system(command);
-    free(command);
-
+    fprintf(f, "nameserver %s\n", buffer_dns);
+    fclose(f);
+    
     return 0;
 }
